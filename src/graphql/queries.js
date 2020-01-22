@@ -5,6 +5,10 @@ export const MACHINES = gql`
     machines {
       id
       name
+      lastKnownPosition {
+        latitude
+        longitude
+      }
     }
   }
 `

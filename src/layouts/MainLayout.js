@@ -24,7 +24,7 @@ const MainLayout = ({ children }) => (
 )
 
 MainLayout.propTypes = {
-  children: any
+  children: any.isRequired
 }
 
 export default MainLayout

@@ -10,9 +10,9 @@ const App = () => (
     <Switch>
       <Route path="/" exact component={Main} />
       <Route
-        path="/sensor/:id"
+        path="/machine/:id"
         exact
-        component={() => <div>Sensor data</div>}
+        component={() => <div>Machine</div>}
       />
       <Route component={() => <div>No route</div>} />
     </Switch>
