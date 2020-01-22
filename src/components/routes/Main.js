@@ -2,26 +2,24 @@ import React from 'react'
 import R from 'ramda'
 import { Grid } from '@material-ui/core'
 import { useQuery } from '@apollo/react-hooks'
-import styled from 'styled-components'
 import MainLayout from 'layouts/MainLayout'
 import { MACHINES } from 'graphql/queries'
 import Error from 'components/common/Error'
 import Spinner from 'components/common/Spinner'
 import MachineCard from 'components/MachineCard'
-
-const Content = styled.div`
-  padding: 40px 0;
-`
+import { ContentWrapper } from 'components/UI'
 
 const Main = () => {
-  const { data, loading, error } = useQuery(MACHINES, { fetchPolicy: 'network-only' })
+  const { data, loading, error } = useQuery(MACHINES, {
+    fetchPolicy: 'network-only'
+  })
   const machines = R.pathOr([], ['machines'], data)
 
   return (
     <MainLayout>
       <Spinner isLoading={loading} delay={1000}>
-        <Content>
-          {!!error && <Error text={error.message}/>}
+        <ContentWrapper>
+          {!!error && <Error text={error.message} />}
           {!!machines.length && (
             <Grid container spacing={4}>
               {machines.map(item => (
@@ -31,7 +29,7 @@ const Main = () => {
               ))}
             </Grid>
           )}
-        </Content>
+        </ContentWrapper>
       </Spinner>
     </MainLayout>
   )
