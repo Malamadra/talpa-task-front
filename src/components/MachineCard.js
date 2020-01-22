@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { object } from 'prop-types'
 import { green, blue } from '@material-ui/core/colors'
 import { Card as CardSrc, Button } from '@material-ui/core'
 import { Link } from 'react-router-dom'
@@ -44,6 +45,10 @@ const MachineCard = ({ item }) => {
       </Link>
     </Card>
   )
+}
+
+MachineCard.propTypes = {
+  item: object.required
 }
 
 export default MachineCard
