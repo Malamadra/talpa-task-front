@@ -12,3 +12,16 @@ export const MACHINES = gql`
     }
   }
 `
+
+export const MACHINE = gql`
+  query machine($id: ID!) {
+    machine(id: $id) {
+      id
+      name
+      sensors {
+        id
+        name
+      }
+    }
+  }
+`

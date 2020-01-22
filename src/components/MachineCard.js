@@ -19,7 +19,7 @@ const Header = styled.div`
 `
 
 const Text = styled.div`
-  ${({ color }) => color && `color: ${color}`}; 
+  ${({ color }) => color && `color: ${color}`};
   ${({ marginBottom }) => marginBottom && `margin-bottom: ${marginBottom}`};
 `
 
@@ -29,17 +29,13 @@ const MachineCard = ({ item }) => {
   return (
     <Card>
       <Header>{name}</Header>
-        <Text marginBottom='10px'>
-          Last known position:
-        </Text>
-        <Text color={green[500]}>
-          Latitude: {lastKnownPosition.latitude}
-        </Text>
-        <Text color={blue[500]} marginBottom='20px'>
-          Longitude: {lastKnownPosition.longitude}
-        </Text>
+      <Text marginBottom="10px">Last known position:</Text>
+      <Text color={green[500]}>Latitude: {lastKnownPosition.latitude}</Text>
+      <Text color={blue[500]} marginBottom="20px">
+        Longitude: {lastKnownPosition.longitude}
+      </Text>
       <Link to={`/machine/${id}`}>
-        <Button color='primary' variant='contained'>
+        <Button color="primary" variant="contained">
           Sensors Information
         </Button>
       </Link>
@@ -48,7 +44,7 @@ const MachineCard = ({ item }) => {
 }
 
 MachineCard.propTypes = {
-  item: object.required
+  item: object.isRequired
 }
 
 export default MachineCard
