@@ -10,23 +10,52 @@ const LoaderWrapper = styled.div`
   justify-content: center;
 `
 
-const Spinner = ({ isLoading, children, size }) =>
-  isLoading ? (
-    <LoaderWrapper>
-      <CircularProgress size={size} />
-    </LoaderWrapper>
-  ) : (
-    children
-  )
+class Spinner extends React.Component {
+  static propTypes = {
+    isLoading: bool.isRequired,
+    children: any.isRequired,
+    size: number,
+    delay: number
+  }
 
-Spinner.propTypes = {
-  isLoading: bool.isRequired,
-  children: any.isRequired,
-  size:number
-}
+  static defaultProps = {
+    size: 70,
+    delay: 0
+  }
 
-Spinner.defaultProps = {
-  size: 70
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      canShow: !props.delay
+    }
+  }
+
+  render() {
+    const { canShow } = this.state
+    const { isLoading, children, size } = this.props
+
+    return canShow && !isLoading ? (
+      children
+    ) : (
+      <LoaderWrapper>
+        <CircularProgress size={size} />
+      </LoaderWrapper>
+    )
+  }
+
+  componentDidUpdate(prevProps) {
+    const { isLoading, delay } = this.props
+    const { canShow } = this.state
+
+    if (prevProps.isLoading && !isLoading && !!delay && !canShow) {
+      setTimeout(() => {
+        this.setState({
+          canShow: true
+        })
+      }, delay)
+    }
+  }
 }
 
 export default Spinner
