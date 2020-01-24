@@ -1,17 +1,20 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import R from 'ramda'
 import { useQuery } from '@apollo/react-hooks'
 import { SENSOR_DATA } from 'graphql/queries'
-import Spinner, { SpinnerWrapper } from 'components/common/Spinner'
+import { SpinnerWrapper } from 'components/common/Spinner'
+import { format, sub, getTime } from 'date-fns'
 import {
   Table,
   Paper,
   TableHead,
   TableRow,
   TableCell,
-  TableBody
+  TableBody,
+  Grid
 } from '@material-ui/core'
+import { KeyboardDatePicker } from '@material-ui/pickers'
 
 const Wrapper = styled.div`
   margin-bottom: 20px;
@@ -20,44 +23,108 @@ const Wrapper = styled.div`
   }
 `
 
+const DatePicker = styled(KeyboardDatePicker)`
+  width: 100%;
+`
+
+const PickersWrapper = styled.div`
+  margin-bottom: 15px;
+`
+
+const initialStartDate = getTime(
+  sub(Date.now(), {
+    years: 2
+  })
+)
+const initialEndDate = Date.now()
+
 const SensorPoints = ({ sensorId }) => {
-  const { data, loading, error } = useQuery(SENSOR_DATA, {
-    fetchPolicy: 'network-only',
+  const { data, error, variables, refetch } = useQuery(SENSOR_DATA, {
     variables: {
-      sensorId
+      sensorId,
+      from: initialStartDate,
+      to: initialEndDate
     }
   })
+
+  const handleRefetch = useCallback(
+    prop => async date => {
+      try {
+        await refetch({
+          sensorId,
+          [prop]: getTime(date)
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    []
+  )
 
   const sensorPoints = R.pathOr([], ['sensorData'], data)
 
   return (
     <Wrapper>
-      <Spinner isLoading={loading} delay={500}>
-        {!error && !!sensorPoints.length && (
-          <Paper>
-            <Table aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Number</TableCell>
-                  <TableCell align='right'>Value</TableCell>
-                  <TableCell align='right'>Date</TableCell>
+      <PickersWrapper>
+        <Grid container spacing={6}>
+          <Grid item xs={6}>
+            <DatePicker
+              disableToolbar
+              variant="inline"
+              format="MM/dd/yyyy"
+              margin="normal"
+              id="date-picker-start"
+              label="Date from"
+              value={variables.from}
+              onChange={handleRefetch('from')}
+              KeyboardButtonProps={{
+                'aria-label': 'change date'
+              }}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <DatePicker
+              disableToolbar
+              variant="inline"
+              format="MM/dd/yyyy"
+              margin="normal"
+              id="date-picker-end"
+              label="Date to"
+              value={variables.to}
+              onChange={handleRefetch('to')}
+              KeyboardButtonProps={{
+                'aria-label': 'change date'
+              }}
+            />
+          </Grid>
+        </Grid>
+      </PickersWrapper>
+      <Paper>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Number</TableCell>
+              <TableCell align="right">Value</TableCell>
+              <TableCell align="right">Date</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {!error &&
+              !!sensorPoints.length &&
+              sensorPoints.map(({ id, value, timestamp }, index) => (
+                <TableRow key={id}>
+                  <TableCell component="th" scope="row">
+                    {index + 1}
+                  </TableCell>
+                  <TableCell align="right">{value}</TableCell>
+                  <TableCell align="right">
+                    {format(timestamp, 'PP')}
+                  </TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {sensorPoints.map(({ id, value, timestamp }, index) => (
-                  <TableRow key={id}>
-                    <TableCell component="th" scope="row">
-                      {index + 1}
-                    </TableCell>
-                    <TableCell align='right'>{value}</TableCell>
-                    <TableCell align='right'>{timestamp}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Paper>
-        )}
-      </Spinner>
+              ))}
+          </TableBody>
+        </Table>
+      </Paper>
     </Wrapper>
   )
 }
