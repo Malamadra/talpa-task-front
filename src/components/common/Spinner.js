@@ -3,7 +3,7 @@ import { bool, any, number } from 'prop-types'
 import styled from 'styled-components'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-const LoaderWrapper = styled.div`
+export const SpinnerWrapper = styled.div`
   min-height: 400px;
   display: flex;
   align-items: center;
@@ -38,9 +38,9 @@ class Spinner extends React.Component {
     return canShow && !isLoading ? (
       children
     ) : (
-      <LoaderWrapper>
+      <SpinnerWrapper>
         <CircularProgress size={size} />
-      </LoaderWrapper>
+      </SpinnerWrapper>
     )
   }
 

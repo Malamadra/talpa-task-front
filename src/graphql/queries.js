@@ -25,3 +25,13 @@ export const MACHINE = gql`
     }
   }
 `
+
+export const SENSOR_DATA = gql`
+  query sensorData($sensorId: ID!, $from: Float, $to: Float) {
+    sensorData(sensorId: $sensorId, from: $from, to: $to) {
+      id
+      timestamp
+      value
+    }
+  }
+`
