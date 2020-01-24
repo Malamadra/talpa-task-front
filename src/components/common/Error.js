@@ -22,7 +22,7 @@ const Error = ({ text }) => {
   return (
     <ErrorWrapper>
       <ErrorMessage>Ooops, error has happened {text}</ErrorMessage>
-      <Button variant="contained" primary onClick={handleReload}>
+      <Button variant="contained" onClick={handleReload}>
         Reload the page
       </Button>
     </ErrorWrapper>
