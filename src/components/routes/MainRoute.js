@@ -9,7 +9,7 @@ import Spinner from 'components/common/Spinner'
 import MachineCard from 'components/MachineCard'
 import { ContentWrapper } from 'components/UI'
 
-const Main = () => {
+const MainRoute = () => {
   const { data, loading, error } = useQuery(MACHINES, {
     fetchPolicy: 'network-only'
   })
@@ -35,4 +35,4 @@ const Main = () => {
   )
 }
 
-export default Main
+export default MainRoute
