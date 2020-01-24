@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import R from 'ramda'
+import { string } from 'prop-types'
 import { useQuery } from '@apollo/react-hooks'
 import { SENSOR_DATA } from 'graphql/queries'
 import { SpinnerWrapper } from 'components/common/Spinner'
@@ -12,9 +13,14 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Grid
+  Grid,
+  TextField
 } from '@material-ui/core'
 import { KeyboardDatePicker } from '@material-ui/pickers'
+
+const TextFieldCustom = styled(({ ...props }) => (
+  <TextField {...props} disabled />
+))``
 
 const Wrapper = styled.div`
   margin-bottom: 20px;
@@ -80,6 +86,7 @@ const SensorPoints = ({ sensorId }) => {
               KeyboardButtonProps={{
                 'aria-label': 'change date'
               }}
+              TextFieldComponent={TextFieldCustom}
             />
           </Grid>
           <Grid item xs={6}>
@@ -95,6 +102,7 @@ const SensorPoints = ({ sensorId }) => {
               KeyboardButtonProps={{
                 'aria-label': 'change date'
               }}
+              TextFieldComponent={TextFieldCustom}
             />
           </Grid>
         </Grid>
@@ -117,9 +125,7 @@ const SensorPoints = ({ sensorId }) => {
                     {index + 1}
                   </TableCell>
                   <TableCell align="right">{value}</TableCell>
-                  <TableCell align="right">
-                    {format(timestamp, 'PP')}
-                  </TableCell>
+                  <TableCell align="right">{format(timestamp, 'PP')}</TableCell>
                 </TableRow>
               ))}
           </TableBody>
@@ -127,6 +133,10 @@ const SensorPoints = ({ sensorId }) => {
       </Paper>
     </Wrapper>
   )
+}
+
+SensorPoints.propTypes = {
+  sensorId: string.isRequired
 }
 
 export default SensorPoints
