@@ -1,6 +1,7 @@
 import React from 'react'
 import R from 'ramda'
 import styled from 'styled-components'
+import { object } from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Button } from '@material-ui/core'
 import { ArrowBack } from '@material-ui/icons'
@@ -39,6 +40,10 @@ const MachineRoute = ({ match }) => {
       </ContentWrapper>
     </MainLayout>
   )
+}
+
+MachineRoute.propTypes = {
+  match: object.isRequired
 }
 
 export default MachineRoute

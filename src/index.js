@@ -4,7 +4,6 @@ import { createGlobalStyle } from 'styled-components'
 import App from 'App'
 import DateFnsUtils from '@date-io/date-fns'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
-import { ApolloProvider } from 'react-apollo'
 import { ApolloProvider as ApolloProviderHooks } from '@apollo/react-hooks'
 import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
@@ -44,13 +43,11 @@ const GlobalStyle = createGlobalStyle`
 const Root = (
   <>
     <GlobalStyle />
-    <ApolloProvider client={client}>
-      <ApolloProviderHooks client={client}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <App />
-        </MuiPickersUtilsProvider>
-      </ApolloProviderHooks>
-    </ApolloProvider>
+    <ApolloProviderHooks client={client}>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <App />
+      </MuiPickersUtilsProvider>
+    </ApolloProviderHooks>
   </>
 )
 
