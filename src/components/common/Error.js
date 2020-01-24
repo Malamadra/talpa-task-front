@@ -17,7 +17,7 @@ const ErrorMessage = styled.div`
 `
 
 const Error = ({ text }) => {
-  const handleReload = useCallback(() => document.location.reload())
+  const handleReload = useCallback(() => document.location.reload(), [])
 
   return (
     <ErrorWrapper>

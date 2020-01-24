@@ -23,7 +23,6 @@ const GlobalStyle = createGlobalStyle`
   }
   
   body {
-    overflow: hidden;
     a {
       text-decoration: none;
     }
