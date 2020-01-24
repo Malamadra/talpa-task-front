@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react'
+import { object } from 'prop-types'
 import {
   ListItem,
   ListItemIcon,
@@ -26,6 +27,10 @@ const SensorListItem = ({ item }) => {
       </Collapse>
     </>
   )
+}
+
+SensorListItem.propTypes = {
+  item: object.isRequired
 }
 
 export default SensorListItem
