@@ -1,5 +1,5 @@
 import React from 'react'
-import R from 'ramda'
+import { get } from 'lodash'
 import { Grid } from '@material-ui/core'
 import { useQuery } from '@apollo/react-hooks'
 import MainLayout from 'layouts/MainLayout'
@@ -13,7 +13,8 @@ const MainRoute = () => {
   const { data, loading, error } = useQuery(MACHINES, {
     fetchPolicy: 'network-only'
   })
-  const machines = R.pathOr([], ['machines'], data)
+
+  const machines = get(data, 'machines') || []
 
   return (
     <MainLayout>

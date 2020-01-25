@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
-import R from 'ramda'
+import { get } from 'lodash'
 import { string } from 'prop-types'
 import { useQuery } from '@apollo/react-hooks'
 import { SENSOR_DATA } from 'graphql/queries'
@@ -67,7 +67,9 @@ const SensorPoints = ({ sensorId }) => {
     []
   )
 
-  const sensorPoints = R.pathOr([], ['sensorData'], data)
+  const sensorPoints = get(data, 'sensorData') || []
+
+  // const sensorPoints = R.pathOr([], ['sensorData'], data)
 
   return (
     <Wrapper>
