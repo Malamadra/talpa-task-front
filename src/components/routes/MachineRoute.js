@@ -1,5 +1,5 @@
 import React from 'react'
-import R from 'ramda'
+import { get } from 'lodash'
 import styled from 'styled-components'
 import { object } from 'prop-types'
 import { Link } from 'react-router-dom'
@@ -17,7 +17,7 @@ const ButtonContainer = styled.div`
 `
 
 const MachineRoute = ({ match }) => {
-  const id = R.path(['params', 'id'], match)
+  const id = get(match, 'params.id')
   const { data, loading, error } = useQuery(MACHINE, {
     fetchPolicy: 'network-only',
     variables: { id }

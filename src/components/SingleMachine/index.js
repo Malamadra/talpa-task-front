@@ -1,5 +1,5 @@
 import React from 'react'
-import R from 'ramda'
+import { get } from 'lodash'
 import { object } from 'prop-types'
 import { red } from '@material-ui/core/colors'
 import { List } from '@material-ui/core'
@@ -20,14 +20,14 @@ const SingleMachine = ({ data, error }) => {
     return <Error text={error.message} />
   }
 
-  const machine = R.prop('machine', data)
+  const machine = get(data, 'machine')
 
   if (!machine) {
     return <Title color={red[300]}>There is no machine with such an id</Title>
   }
 
-  const machineName = R.path(['machine', 'name'], data)
-  const sensorDataPoints = R.pathOr([], ['machine', 'sensors'], data)
+  const machineName = get(data, 'machine.name')
+  const sensorDataPoints = get(data, 'machine.sensors')
 
   return (
     <div>
