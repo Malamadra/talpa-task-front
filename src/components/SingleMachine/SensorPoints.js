@@ -1,10 +1,9 @@
 import React, { useCallback } from 'react'
+import { string } from 'prop-types'
 import styled from 'styled-components'
 import { get } from 'lodash'
-import { string } from 'prop-types'
-import { useQuery } from '@apollo/react-hooks'
 import { SENSOR_DATA } from 'graphql/queries'
-import { SpinnerWrapper } from 'components/common/Spinner'
+import { useQuery } from '@apollo/react-hooks'
 import { format, sub, getTime } from 'date-fns'
 import {
   Table,
@@ -17,6 +16,9 @@ import {
   TextField
 } from '@material-ui/core'
 import { KeyboardDatePicker } from '@material-ui/pickers'
+import Error from 'components/common/Error'
+import { SpinnerWrapper } from 'components/common/Spinner'
+import SensorPointsTable from './SensorPointsTable'
 
 const TextFieldCustom = styled(({ ...props }) => (
   <TextField {...props} disabled />
@@ -69,8 +71,6 @@ const SensorPoints = ({ sensorId }) => {
 
   const sensorPoints = get(data, 'sensorData') || []
 
-  // const sensorPoints = R.pathOr([], ['sensorData'], data)
-
   return (
     <Wrapper>
       <PickersWrapper>
@@ -110,28 +110,7 @@ const SensorPoints = ({ sensorId }) => {
         </Grid>
       </PickersWrapper>
       <Paper>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Number</TableCell>
-              <TableCell align="right">Value</TableCell>
-              <TableCell align="right">Date</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {!error &&
-              !!sensorPoints.length &&
-              sensorPoints.map(({ id, value, timestamp }, index) => (
-                <TableRow key={id}>
-                  <TableCell component="th" scope="row">
-                    {index + 1}
-                  </TableCell>
-                  <TableCell align="right">{value}</TableCell>
-                  <TableCell align="right">{format(timestamp, 'PP')}</TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
+        {error ? <Error /> : <SensorPointsTable sensorPoints={sensorPoints} />}
       </Paper>
     </Wrapper>
   )
