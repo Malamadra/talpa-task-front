@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react'
+import { array } from 'prop-types'
 import {
   Table,
   TableBody,
@@ -9,7 +10,7 @@ import {
 } from '@material-ui/core'
 import { format } from 'date-fns'
 
-const SORT_DIRECTIONS = {
+export const SORT_DIRECTIONS = {
   ASC: 'asc',
   DESC: 'desc'
 }
@@ -28,7 +29,6 @@ const sortSensorPoints = (array, sortDirection) => {
 
 const SensorPointsTable = ({ sensorPoints }) => {
   const [sortDirection, setSortDirection] = useState(null)
-  const sensorPointsToShow = sortSensorPoints(sensorPoints, sortDirection)
 
   const toggleSortDirection = useCallback(() => {
     const newDirection =
@@ -38,6 +38,8 @@ const SensorPointsTable = ({ sensorPoints }) => {
 
     setSortDirection(newDirection)
   }, [sortDirection])
+
+  const sensorPointsToShow = sortSensorPoints(sensorPoints, sortDirection)
 
   return (
     <Table aria-label="simple table">
@@ -50,6 +52,7 @@ const SensorPointsTable = ({ sensorPoints }) => {
               active
               direction={sortDirection || SORT_DIRECTIONS.ASC}
               onClick={toggleSortDirection}
+              id="date-sort-label"
             >
               Date
             </TableSortLabel>
@@ -64,12 +67,18 @@ const SensorPointsTable = ({ sensorPoints }) => {
                 {index + 1}
               </TableCell>
               <TableCell align="right">{value}</TableCell>
-              <TableCell align="right">{format(timestamp, 'PP')}</TableCell>
+              <TableCell align="right" data-cell="timestamp">
+                {format(timestamp, 'PP')}
+              </TableCell>
             </TableRow>
           ))}
       </TableBody>
     </Table>
   )
+}
+
+SensorPointsTable.propTypes = {
+  sensorPoints: array.isRequired
 }
 
 export default SensorPointsTable

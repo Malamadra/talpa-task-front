@@ -10,9 +10,6 @@ const fakeItem = {
 
 describe('<TestComponent />', () => {
   let wrapper
-  const setState = jest.fn()
-  const useStateSpy = jest.spyOn(React, 'useState')
-  useStateSpy.mockImplementation(init => [init, setState])
 
   beforeEach(() => {
     wrapper = shallow(<SensorListItem item={fakeItem} />)
