@@ -15,15 +15,15 @@ const SensorListItem = ({ item }) => {
 
   return (
     <>
-      <ListItem button onClick={toggleOpen}>
+      <ListItem button onClick={toggleOpen} id="list-button">
         <ListItemIcon>
           <Inbox />
         </ListItemIcon>
         <ListItemText primary={item.name} />
         {isOpen ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
-      <Collapse in={isOpen} timeout="auto" unmountOnExit>
-        <SensorPoints sensorId={item.id} />
+      <Collapse in={isOpen} timeout="auto">
+        {isOpen && <SensorPoints sensorId={item.id} />}
       </Collapse>
     </>
   )
